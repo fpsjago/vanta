@@ -1,0 +1,100 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import type { Skin } from '../types';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  skin?: Skin;
+  noindex?: boolean;
+  ogType?: string;
+  preloadHero?: { sm?: string; lg: string };
+}
+
+const {
+  title,
+  description = 'VANTA GT — an electric grand tourer engineered for the dark. Reserve the flagship.',
+  image,
+  skin = 'midnight',
+  noindex = false,
+  ogType = 'website',
+  preloadHero,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const ogImage = image ?? `${base}_assets/og-default.jpg`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const fullTitle = title === 'VANTA' ? 'VANTA — Engineered for the dark.' : `${title} — VANTA`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'VANTA',
+  description,
+  url: Astro.site?.href ?? canonical,
+  slogan: 'Engineered for the dark.',
+  brand: { '@type': 'Brand', name: 'VANTA' },
+};
+---
+
+<!doctype html>
+<html lang="en" data-skin={skin} class="lenis">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="VANTA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#08080B" />
+
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="sitemap" href={`${base}sitemap-index.xml`} />
+
+    {preloadHero?.sm && <link rel="preload" as="image" href={preloadHero.sm} type="image/avif" fetchpriority="high" media="(max-width: 820px)" />}
+    {preloadHero && <link rel="preload" as="image" href={preloadHero.lg} type="image/avif" fetchpriority="high" media="(min-width: 821px)" />}
+
+    <Font cssVariable="--ff-display" preload />
+    <Font cssVariable="--ff-body" preload />
+    <Font cssVariable="--ff-mono" preload />
+
+    <script is:inline>
+      (function () {
+        try {
+          var s = localStorage.getItem('vanta-skin');
+          if (s === 'midnight' || s === 'carbon' || s === 'studio') document.documentElement.setAttribute('data-skin', s);
+        } catch (e) {}
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <ClientRouter />
+  </head>
+
+  <body class="grain edge-fades">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot name="nav" />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>
