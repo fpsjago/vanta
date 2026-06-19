@@ -33,7 +33,7 @@ export function ContactForm({ endpoint }: ContactFormProps) {
     return Object.keys(e).length === 0;
   };
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (ev) => {
+  const onSubmit = async (ev: { preventDefault: () => void }) => {
     ev.preventDefault();
     if (!validate()) return;
     setStatus('submitting');

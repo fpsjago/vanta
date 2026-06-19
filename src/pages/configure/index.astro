@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Nav } from '../../components/Nav';
+import { Footer } from '../../components/Footer';
+import { Configurator } from '../../components/Configurator';
+import { optimize } from '../../lib/images';
+import { TRIMS } from '../../data/gt';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const trims = await Promise.all(
+  TRIMS.map(async (t) => ({ id: t.id, name: t.name, paint: t.paint, price: t.price, sub: t.sub, image: await optimize(t.image, { width: 1400, alt: `VANTA GT in ${t.name}` }) }))
+);
+---
+
+<BaseLayout title="Configure" description="Build your VANTA GT — paint, finish, and reserve in minutes.">
+  <Nav slot="nav" base={base} client:only="react" />
+  <Configurator trims={trims} base={base} client:load />
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>
