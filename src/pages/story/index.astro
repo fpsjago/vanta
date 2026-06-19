@@ -1,0 +1,139 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Nav } from '../../components/Nav';
+import { Footer } from '../../components/Footer';
+import { optimize } from '../../lib/images';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const chapters = (await getCollection('story')).sort((a, b) => a.data.order - b.data.order);
+
+// Optimize each cover + render markdown body up-front.
+const acts = await Promise.all(
+  chapters.map(async (entry) => {
+    const cover = await optimize(entry.data.cover, {
+      width: 1280,
+      mobileWidth: 760,
+      alt: entry.data.title,
+    });
+    const { Content } = await render(entry);
+    return { entry, cover, Content };
+  })
+);
+
+// Plasma interstitial lines between chapters.
+const INTERSTITIALS = [
+  'Strip the noise. Keep the line.',
+  'Silence is the loudest thing it does.',
+  'Built for distance. Built for the dark.',
+];
+
+// Shared prose styling for the markdown body.
+const prose = [
+  'max-w-[60ch]',
+  '[&>p]:text-[length:var(--text-lg)] [&>p]:text-[var(--muted)] [&>p]:leading-[1.75] [&>p]:mt-6',
+  '[&>p:first-child]:mt-0',
+  '[&>p:first-child]:first-letter:font-display [&>p:first-child]:first-letter:text-[var(--plasma-2)] [&>p:first-child]:first-letter:text-[3.4em] [&>p:first-child]:first-letter:leading-[0.7] [&>p:first-child]:first-letter:float-left [&>p:first-child]:first-letter:mr-3 [&>p:first-child]:first-letter:mt-1',
+  '[&>h2]:font-display [&>h2]:text-[length:var(--text-2xl)] [&>h2]:mt-12 [&>h2]:text-[var(--bone)]',
+  '[&>blockquote]:border-l-2 [&>blockquote]:border-[var(--plasma)] [&>blockquote]:pl-5 [&>blockquote]:italic [&>blockquote]:text-[var(--bone)] [&>blockquote]:my-8',
+  '[&_a]:text-[var(--plasma-2)] [&_a]:underline [&_a]:underline-offset-4',
+  '[&_strong]:text-[var(--bone)]',
+].join(' ');
+---
+
+<BaseLayout
+  title="Story"
+  description="Why a grand tourer, and why one built for the hours after midnight. The thinking behind the VANTA GT — origin, design, powertrain, and charging."
+>
+  <Nav slot="nav" base={base} client:only="react" />
+
+  <!-- Opening title act -->
+  <section class="relative min-h-[88svh] flex items-end overflow-hidden pt-32 pb-16">
+    <div class="glow absolute inset-0 opacity-70" aria-hidden="true"></div>
+    <div class="bgtypo text-[length:clamp(7rem,26vw,24rem)] top-[14%] -left-[3%]" aria-hidden="true">WHY</div>
+    <span class="float-line left-[20%] top-[10%] h-[30%]" aria-hidden="true"></span>
+    <span class="float-dot right-[22%] top-[34%]" aria-hidden="true"></span>
+    <span class="float-ring w-[220px] h-[220px] right-[8%] bottom-[10%]" aria-hidden="true"></span>
+
+    <div class="container-wide relative z-[2]">
+      <p class="kicker" data-reveal><span class="ping" aria-hidden="true"></span> THE STORY OF THE GT</p>
+      <h1 class="mt-6 font-display text-[length:var(--text-6xl)] leading-[0.86] tracking-[-0.03em] max-w-[14ch]" data-word-reveal>
+        We started in the <span class="text-[var(--plasma-2)]">dark</span>.
+      </h1>
+      <p class="mt-7 text-[length:var(--text-lg)] text-[var(--muted)] max-w-[54ch] leading-relaxed" data-reveal style="--reveal-delay:0.15s">
+        Four chapters on why a grand tourer, why electric, and why one engineered for the empty road at 2 a.m. Scroll to begin the sequence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Chapters: full-bleed alternating acts -->
+  {acts.map(({ entry, cover, Content }, i) => {
+    const flip = i % 2 === 1;
+    return (
+      <>
+        <article class="section !py-0 relative overflow-hidden">
+          <div class="container-wide py-[clamp(4rem,9vw,8rem)]">
+            <div class={`grid gap-10 lg:gap-16 items-center lg:[grid-template-columns:1fr_1fr] ${flip ? '' : ''}`}>
+              <!-- Cover -->
+              <figure class={`relative ${flip ? 'lg:order-2' : ''}`} data-reveal={flip ? 'right' : 'left'}>
+                <div class="relative panel overflow-hidden bg-[var(--void)] aspect-[5/4]">
+                  <div class="glow-center absolute inset-0" aria-hidden="true"></div>
+                  <div class="absolute inset-0" data-parallax="0.08">
+                    <picture class="block w-full h-full">
+                      <source media="(max-width: 640px)" srcset={cover.avifSm} type="image/avif" />
+                      <source srcset={cover.avif} type="image/avif" />
+                      <source srcset={cover.webp} type="image/webp" />
+                      <img src={cover.fallback} alt={cover.alt} width={cover.width} height={cover.height} loading="lazy" decoding="async" class="w-full h-full object-cover scale-[1.08]" />
+                    </picture>
+                  </div>
+                  <span class="absolute left-4 bottom-4 z-[2] label-mono">{entry.data.kicker}</span>
+                </div>
+              </figure>
+
+              <!-- Text -->
+              <div class={flip ? 'lg:order-1' : ''}>
+                <p class="kicker" data-reveal>{entry.data.kicker}</p>
+                <h2 class="mt-4 font-display text-[length:var(--text-3xl)] leading-[0.96] max-w-[16ch]" data-reveal style="--reveal-delay:0.05s">{entry.data.title}</h2>
+                <p class="mt-4 text-[length:var(--text-lg)] text-[var(--plasma-2)] max-w-[44ch] leading-snug" data-reveal style="--reveal-delay:0.1s">{entry.data.excerpt}</p>
+                <div class={`mt-8 ${prose}`} data-reveal style="--reveal-delay:0.15s">
+                  <Content />
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        {i < acts.length - 1 && (
+          <aside class="flood-plasma relative overflow-hidden" aria-hidden="true">
+            <div class="container-wide py-[clamp(3.5rem,8vw,6.5rem)]">
+              <p class="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.95] tracking-[-0.02em] max-w-[20ch] mx-auto text-center" data-reveal="scale">
+                {INTERSTITIALS[i % INTERSTITIALS.length]}
+              </p>
+            </div>
+            <span class="float-dot left-[14%] top-[30%] !bg-[var(--plasma-ink)] !shadow-none opacity-40"></span>
+            <span class="float-dot right-[18%] bottom-[26%] !bg-[var(--plasma-ink)] !shadow-none opacity-40"></span>
+          </aside>
+        )}
+      </>
+    );
+  })}
+
+  <!-- Closing CTA -->
+  <section class="section relative overflow-hidden">
+    <div class="glow-center absolute inset-0 opacity-80" aria-hidden="true"></div>
+    <div class="container relative z-[2] text-center">
+      <p class="kicker justify-center" data-reveal><span class="ping" aria-hidden="true"></span> THE END IS A BEGINNING</p>
+      <h2 class="mt-6 font-display text-[length:var(--text-5xl)] leading-[0.9] max-w-[16ch] mx-auto" data-reveal>Now go drive it in your head.</h2>
+      <p class="mt-6 text-[length:var(--text-lg)] text-[var(--muted)] max-w-[44ch] mx-auto leading-relaxed" data-reveal style="--reveal-delay:0.1s">
+        Then make it real. Configure the finish, hold a slot, and be among the first into the dark.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-4" data-reveal style="--reveal-delay:0.15s">
+        <a href={`${base}reserve/`} class="btn-plasma" data-magnetic="0.2">Reserve the GT →</a>
+        <a href={`${base}configure/`} class="btn-line">Configure yours</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>

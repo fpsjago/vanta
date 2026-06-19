@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Nav } from '../../components/Nav';
+import { Footer } from '../../components/Footer';
+import { ContactForm } from '../../components/ContactForm';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+
+const CHANNELS = [
+  { label: 'Press & media', value: 'press@vanta.dev', note: 'Assets, interviews, embargoed briefings.' },
+  { label: 'Reservations', value: 'reservations@vanta.dev', note: 'Build slots, deposits, delivery windows.' },
+];
+
+const FAQS = [
+  {
+    q: 'Is the VANTA GT a real production car?',
+    a: 'No — the GT is a concept vehicle and this site is a design template. Every render, spec, and price is illustrative. Swap in your own brand, assets, and copy before launch.',
+  },
+  {
+    q: 'What does a reservation actually commit me to?',
+    a: 'Nothing binding. A reservation holds your place in line with a fully refundable deposit. You only enter a purchase agreement later, once specification and pricing are confirmed — and you can cancel for a full refund until then.',
+  },
+  {
+    q: 'How is the refundable deposit handled?',
+    a: 'In production you would route deposits through a regulated payment processor on a separate encrypted page. This template captures the reservation intent and confirmation number; wire your processor of choice to the form endpoint.',
+  },
+  {
+    q: 'When do first deliveries begin?',
+    a: 'Delivery windows are assigned in reservation order. The earlier your slot, the earlier your window. Your specialist confirms timing once your build is locked.',
+  },
+  {
+    q: 'Can I change my finish after reserving?',
+    a: 'Yes. Your configuration stays editable right up until you place a binding order. Reach your specialist or revisit the configurator anytime.',
+  },
+  {
+    q: 'Where are you based?',
+    a: 'The VANTA flagship studio is the address listed here. As a concept brand it is illustrative — replace it with your real location and hours before going live.',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Reach VANTA — press, reservations, and the flagship studio. Send a message and a real person replies within one business day."
+>
+  <Nav slot="nav" base={base} client:only="react" />
+
+  <section class="section pt-32 lg:pt-40 relative overflow-hidden">
+    <div class="glow absolute inset-0 opacity-60" aria-hidden="true"></div>
+    <div class="bgtypo text-[length:clamp(6rem,20vw,18rem)] -top-[2%] -right-[5%] opacity-80" aria-hidden="true">CONTACT</div>
+    <span class="float-line right-[14%] top-0 h-[36%]" aria-hidden="true"></span>
+    <span class="float-ring w-[180px] h-[180px] left-[6%] bottom-[12%]" aria-hidden="true"></span>
+
+    <header class="container-wide relative z-[2] mb-12 lg:mb-16">
+      <p class="kicker"><span class="ping" aria-hidden="true"></span> LINE OPEN</p>
+      <h1 class="mt-5 font-display text-[length:var(--text-4xl)] max-w-[18ch] leading-[0.95]">
+        Talk to the<br />people behind the <span class="text-[var(--plasma-2)]">GT</span>.
+      </h1>
+    </header>
+
+    <div class="container-wide relative z-[2] grid gap-10 lg:gap-16 lg:[grid-template-columns:1fr_1.1fr] items-start">
+      <!-- Left: channels + studio -->
+      <div class="flex flex-col gap-7">
+        <div class="flex flex-col gap-4">
+          {CHANNELS.map((c) => (
+            <a href={`mailto:${c.value}`} class="panel block p-6 group">
+              <span class="label-mono">{c.label.toUpperCase()}</span>
+              <p class="mt-2 font-display text-[length:var(--text-xl)] text-[var(--bone)] group-hover:text-[var(--plasma-2)] transition-colors">{c.value}</p>
+              <p class="mt-2 text-[var(--text-sm)] text-[var(--muted)]">{c.note}</p>
+            </a>
+          ))}
+        </div>
+
+        <div class="panel p-6">
+          <span class="label-mono">FLAGSHIP STUDIO</span>
+          <address class="mt-3 not-italic font-display text-[length:var(--text-lg)] leading-snug text-[var(--bone)]">
+            VANTA Studio — Nocturne<br />
+            48 Lumen Quay, Arch 12<br />
+            London E1W 3TJ, United Kingdom
+          </address>
+          <div class="hairline my-5"></div>
+          <p class="label-mono flex items-center gap-2.5"><span class="ping" aria-hidden="true"></span> OPEN BY APPOINTMENT · WED–SUN · 14:00–22:00</p>
+          <p class="mt-3 text-[var(--text-sm)] text-[var(--muted)] leading-relaxed">Night viewings are the point. The GT is shown under low light, the way it was designed to be seen.</p>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="flex flex-col gap-4">
+        <p class="label-mono">SEND A MESSAGE</p>
+        <ContactForm endpoint={endpoint} client:visible />
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="container relative z-[2] mt-20 lg:mt-28">
+      <header class="mb-9">
+        <p class="kicker">FREQUENT QUESTIONS</p>
+        <h2 class="mt-4 font-display text-[length:var(--text-3xl)] max-w-[20ch]">Before you ask.</h2>
+      </header>
+      <div class="border-t border-[var(--line)]">
+        {FAQS.map((f) => (
+          <details class="group border-b border-[var(--line)]">
+            <summary class="flex items-center justify-between gap-5 cursor-pointer list-none py-5 select-none">
+              <span class="font-display text-[length:var(--text-lg)] text-[var(--bone)] group-open:text-[var(--plasma-2)] transition-colors">{f.q}</span>
+              <span class="relative shrink-0 h-5 w-5 grid place-items-center text-[var(--plasma-2)]" aria-hidden="true">
+                <span class="absolute h-px w-3.5 bg-current"></span>
+                <span class="absolute h-3.5 w-px bg-current transition-transform duration-300 group-open:rotate-90 group-open:opacity-0"></span>
+              </span>
+            </summary>
+            <p class="pb-6 -mt-1 max-w-[64ch] text-[var(--muted)] leading-relaxed">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>

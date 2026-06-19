@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Nav } from '../../components/Nav';
+import { Footer } from '../../components/Footer';
+import { GtStats } from '../../components/GtStats';
+import { optimize } from '../../lib/images';
+import { SPECS, KEY_STATS } from '../../data/gt';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const side = await optimize('gt-side.png', { width: 2000, mobileWidth: 1000, alt: 'The VANTA GT in profile — a low electric grand tourer shaped by airflow' });
+const front = await optimize('gt-detail-front.png', { width: 1400, mobileWidth: 820, alt: 'The VANTA GT front fascia — sealed grille and active aero intakes' });
+const wheel = await optimize('gt-detail-wheel.png', { width: 1200, mobileWidth: 720, alt: 'Forged 22-inch turbine-vane aero wheel over a carbon-ceramic disc' });
+const interior = await optimize('gt-detail-interior.png', { width: 1600, mobileWidth: 900, alt: 'The VANTA GT cockpit — a dark, driver-focused interior' });
+
+const powertrain = SPECS.find((g) => g.group === 'Powertrain')!;
+const battery = SPECS.find((g) => g.group === 'Battery & charging')!;
+const chassis = SPECS.find((g) => g.group === 'Chassis & body')!;
+
+const title = 'The GT';
+const description = 'The VANTA GT — 1,020 hp of silence, 690 km of range, a body shaped entirely by airflow. The full spec sheet, in motion.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav slot="nav" base={base} client:only="react" />
+
+  <!-- ============ ACT I · OPENING — full-bleed side render on void ============ -->
+  <section class="relative min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[var(--void)]" aria-label="The VANTA GT">
+    <div class="glow-center absolute inset-0 opacity-80" aria-hidden="true"></div>
+    <div class="bgtypo text-[length:clamp(6rem,26vw,24rem)] top-[14%] left-1/2 -translate-x-1/2 opacity-80" aria-hidden="true">GT</div>
+
+    <!-- floating field — atmosphere, never a grid -->
+    <span class="float-line left-[16%] top-[12%] h-[34%]" aria-hidden="true"></span>
+    <span class="float-line right-[22%] top-[8%] h-[26%]" aria-hidden="true"></span>
+    <span class="float-ring w-[44vmin] h-[44vmin] right-[-8vmin] top-[18%]" aria-hidden="true"></span>
+    <span class="float-dot left-[28%] top-[30%]" aria-hidden="true"></span>
+    <span class="float-dot right-[34%] top-[22%]" aria-hidden="true"></span>
+
+    <!-- the car — parallax (handled by global data-parallax in .astro, skips islands) -->
+    <div class="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none">
+      <div data-parallax="0.1" class="w-full h-full flex items-center justify-center will-change-transform">
+        <picture class="w-[118%] max-w-none md:w-full">
+          <source media="(max-width: 820px)" srcset={side.avifSm} type="image/avif" />
+          <source media="(max-width: 820px)" srcset={side.webpSm} type="image/webp" />
+          <source srcset={side.avif} type="image/avif" />
+          <source srcset={side.webp} type="image/webp" />
+          <img src={side.fallback} alt={side.alt} width={side.width} height={side.height} loading="eager" fetchpriority="high" decoding="async" class="w-full h-auto object-contain drop-shadow-[0_40px_120px_rgba(0,0,0,0.6)]" />
+        </picture>
+      </div>
+    </div>
+
+    <!-- void wash so type holds at the foot -->
+    <div class="absolute inset-0 z-[2] pointer-events-none bg-[linear-gradient(180deg,var(--void)_0%,transparent_30%,transparent_52%,var(--void)_100%)]" aria-hidden="true"></div>
+
+    <div class="container-wide relative z-[3] pb-[clamp(3rem,7vw,6rem)] pt-32">
+      <span data-reveal class="kicker mb-5"><span class="ping"></span> THE GT · CONCEPT · FLAGSHIP</span>
+      <h1 data-reveal class="font-display font-extrabold text-[length:clamp(3.4rem,13vw,11rem)] leading-[0.82] tracking-[-0.035em] text-[var(--bone)]">
+        The shape<br />of <span class="text-[var(--plasma-2)]">silence.</span>
+      </h1>
+      <p data-reveal style="--reveal-delay:0.1s" class="mt-7 max-w-[48ch] text-[length:var(--text-lg)] text-[var(--bone)]/80 leading-relaxed">
+        One flagship. Dual-motor all-wheel drive, a 900-volt heart, and a body sculpted until the air gave up arguing. Everything below is real — measured, not marketed.
+      </p>
+
+      <dl data-reveal-stagger class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 max-w-4xl">
+        {KEY_STATS.map((s) => (
+          <div class="border-t border-[var(--line-strong)] pt-4">
+            <dt class="font-display font-extrabold leading-none text-[length:clamp(1.9rem,4vw,3rem)] text-[var(--bone)]">
+              {s.value}<span class="text-[var(--plasma-2)] text-[0.4em] align-top ml-1">{s.suffix}</span>
+            </dt>
+            <dd class="label-mono mt-2">{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-[3] flex flex-col items-center gap-2" aria-hidden="true">
+      <span class="scroll-hint"></span><span class="label-mono text-[0.58rem]">PERFORMANCE</span>
+    </div>
+  </section>
+
+  <!-- ============ ACT II · PERFORMANCE — counting numbers (island) ============ -->
+  <section class="section glow relative overflow-hidden bg-[var(--void)]" aria-labelledby="perf-h">
+    <div class="bgtypo text-[length:clamp(5rem,18vw,15rem)] -top-[2%] -left-[2%] opacity-70" aria-hidden="true">412</div>
+    <div class="container-wide relative">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+        <div>
+          <span data-reveal class="kicker mb-4">ACT 01 · PERFORMANCE</span>
+          <h2 id="perf-h" data-reveal class="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.92] tracking-[-0.02em] text-[var(--bone)] max-w-[16ch]">
+            Numbers that arrive<br />before the sound does.
+          </h2>
+        </div>
+        <p data-reveal class="text-[var(--text-base)] text-[var(--muted)] max-w-[40ch] leading-relaxed lg:text-right">
+          1,300 N·m, delivered the instant you ask. No turbo lag, no shift, no breath between intent and thrust.
+        </p>
+      </div>
+
+      <GtStats client:visible />
+    </div>
+  </section>
+
+  <!-- ============ ACT III · POWERTRAIN — spec-table + front detail ============ -->
+  <section class="section relative overflow-hidden bg-[var(--surface)] border-y border-[var(--line)]" aria-labelledby="pwr-h">
+    <span class="float-line left-[8%] top-[6%] h-[40%]" aria-hidden="true"></span>
+    <div class="container-wide relative grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-16 items-center">
+      <div>
+        <span data-reveal class="kicker mb-4">ACT 02 · POWERTRAIN</span>
+        <h2 id="pwr-h" data-reveal class="font-display font-extrabold text-[length:var(--text-3xl)] leading-[0.94] tracking-[-0.02em] text-[var(--bone)] max-w-[14ch]">
+          Two motors. One intention.
+        </h2>
+        <p data-reveal class="mt-5 text-[var(--text-base)] text-[var(--muted)] leading-relaxed max-w-[44ch]">
+          A motor on each axle, torque-vectored a thousand times a second. The GT decides which wheel needs the force — you only feel the grip.
+        </p>
+
+        <div data-reveal style="--reveal-delay:0.08s" class="panel mt-9 p-1.5">
+          <table class="spec-table">
+            <caption class="sr-only">{powertrain.group} specifications</caption>
+            <tbody>
+              {powertrain.rows.map((r) => (
+                <tr>
+                  <th scope="row">{r.label}</th>
+                  <td>{r.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <figure data-reveal="scale" class="relative">
+        <div class="glow-center absolute -inset-8 opacity-90" aria-hidden="true"></div>
+        <div class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--void)]">
+          <div data-parallax="0.06" class="will-change-transform">
+            <picture>
+              <source media="(max-width: 820px)" srcset={front.avifSm} type="image/avif" />
+              <source media="(max-width: 820px)" srcset={front.webpSm} type="image/webp" />
+              <source srcset={front.avif} type="image/avif" />
+              <source srcset={front.webp} type="image/webp" />
+              <img src={front.fallback} alt={front.alt} width={front.width} height={front.height} loading="lazy" decoding="async" class="w-full h-auto object-cover" />
+            </picture>
+          </div>
+        </div>
+        <figcaption class="label-mono mt-4 flex items-center gap-2.5"><span class="ping"></span> SEALED FASCIA · ACTIVE AERO INTAKES</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ ACT IV · INTERSTITIAL — plasma color-flood ============ -->
+  <section class="flood-plasma relative overflow-hidden" aria-label="900-volt architecture">
+    <div class="absolute inset-0 opacity-30 mix-blend-overlay bg-[radial-gradient(ellipse_70%_60%_at_50%_50%,#000_0%,transparent_70%)]" aria-hidden="true"></div>
+    <div class="container relative py-[clamp(4rem,9vw,8rem)] text-center">
+      <p data-reveal class="font-mono text-[var(--text-2xs)] uppercase tracking-[0.3em] text-[var(--plasma-ink)]/70">900-VOLT ARCHITECTURE</p>
+      <p data-reveal style="--reveal-delay:0.08s" class="mt-6 font-display font-extrabold text-[length:clamp(2.2rem,7vw,5.5rem)] leading-[0.95] tracking-[-0.02em] text-[var(--plasma-ink)] max-w-[20ch] mx-auto">
+        Ten to eighty percent in eighteen minutes.
+      </p>
+      <p data-reveal style="--reveal-delay:0.14s" class="mt-7 font-mono text-[var(--text-sm)] tracking-[0.12em] text-[var(--plasma-ink)]/80">350 kW DC PEAK · 110 kWh USABLE · 690 km WLTP</p>
+    </div>
+  </section>
+
+  <!-- ============ ACT V · BATTERY — wheel detail + spec-table (alt side) ============ -->
+  <section class="section relative overflow-hidden bg-[var(--void)] glow" aria-labelledby="bat-h">
+    <div class="bgtypo text-[length:clamp(5rem,16vw,13rem)] bottom-[4%] right-[-2%] opacity-70" aria-hidden="true">690</div>
+    <div class="container-wide relative grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+      <figure data-reveal="scale" class="relative order-2 lg:order-1">
+        <span class="float-ring w-[30vmin] h-[30vmin] left-[-6vmin] bottom-[-6vmin]" aria-hidden="true"></span>
+        <div class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--surface)]">
+          <div data-parallax="0.08" class="will-change-transform">
+            <picture>
+              <source media="(max-width: 820px)" srcset={wheel.avifSm} type="image/avif" />
+              <source media="(max-width: 820px)" srcset={wheel.webpSm} type="image/webp" />
+              <source srcset={wheel.avif} type="image/avif" />
+              <source srcset={wheel.webp} type="image/webp" />
+              <img src={wheel.fallback} alt={wheel.alt} width={wheel.width} height={wheel.height} loading="lazy" decoding="async" class="w-full h-auto object-cover" />
+            </picture>
+          </div>
+        </div>
+        <figcaption class="label-mono mt-4 flex items-center gap-2.5"><span class="ping"></span> 22″ FORGED AERO · CARBON-CERAMIC BRAKES</figcaption>
+      </figure>
+
+      <div class="order-1 lg:order-2">
+        <span data-reveal class="kicker mb-4">ACT 03 · BATTERY &amp; CHARGING</span>
+        <h2 id="bat-h" data-reveal class="font-display font-extrabold text-[length:var(--text-3xl)] leading-[0.94] tracking-[-0.02em] text-[var(--bone)] max-w-[14ch]">
+          Range that forgets the charger exists.
+        </h2>
+        <p data-reveal class="mt-5 text-[var(--text-base)] text-[var(--muted)] leading-relaxed max-w-[44ch]">
+          A 110 kWh pack on a 900-volt bus. Pull into a fast charger for the time it takes to drink a coffee, leave with another 540 kilometres.
+        </p>
+
+        <div data-reveal style="--reveal-delay:0.08s" class="panel mt-9 p-1.5">
+          <table class="spec-table">
+            <caption class="sr-only">{battery.group} specifications</caption>
+            <tbody>
+              {battery.rows.map((r) => (
+                <tr>
+                  <th scope="row">{r.label}</th>
+                  <td>{r.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACT VI · DESIGN — GENUINE LIGHT MOMENT (bone bg, ink text) ============ -->
+  <section
+    data-skin="studio"
+    class="section relative overflow-hidden bg-[#EDEBE4] text-[#14141A] border-y border-[#D8D5CC]"
+    aria-labelledby="design-h"
+  >
+    <div class="bgtypo text-[length:clamp(6rem,20vw,18rem)] -bottom-[8%] -left-[3%] opacity-90 [-webkit-text-stroke:1px_rgba(209,20,104,0.14)]" aria-hidden="true">FORM</div>
+
+    <div class="container-wide relative">
+      <div class="max-w-2xl mb-12">
+        <span data-reveal class="font-mono text-[var(--text-2xs)] uppercase tracking-[0.24em] text-[#B30E57] inline-flex items-center gap-2.5 mb-4">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#D11468]"></span> ACT 04 · DESIGN
+        </span>
+        <h2 id="design-h" data-reveal class="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.9] tracking-[-0.025em] text-[#14141A]">
+          We brought it<br />into the light.
+        </h2>
+        <p data-reveal style="--reveal-delay:0.08s" class="mt-6 text-[length:var(--text-lg)] text-[#5C5C64] leading-relaxed max-w-[50ch]">
+          Every dark car hides its surfaces. Here is the GT in full studio light — nothing to hide. The body reads as one continuous gesture because the air demanded it.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-14 items-center">
+        <figure data-reveal="scale" class="relative">
+          <div class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[#D8D5CC] bg-[#F6F4EE] shadow-[0_30px_90px_-30px_rgba(20,20,26,0.35)]">
+            <div data-parallax="0.05" class="will-change-transform">
+              <picture>
+                <source media="(max-width: 820px)" srcset={interior.avifSm} type="image/avif" />
+                <source media="(max-width: 820px)" srcset={interior.webpSm} type="image/webp" />
+                <source srcset={interior.avif} type="image/avif" />
+                <source srcset={interior.webp} type="image/webp" />
+                <img src={interior.fallback} alt={interior.alt} width={interior.width} height={interior.height} loading="lazy" decoding="async" class="w-full h-auto object-cover" />
+              </picture>
+            </div>
+          </div>
+          <figcaption class="font-mono text-[var(--text-xs)] tracking-[0.1em] text-[#5C5C64] mt-4">THE COCKPIT · INSTRUMENTS WAKE ONLY WHEN YOU DO</figcaption>
+        </figure>
+
+        <div class="flex flex-col gap-8">
+          <div data-reveal>
+            <div class="font-display font-extrabold leading-none text-[length:clamp(3.4rem,8vw,6rem)] text-[#14141A]">
+              Cd<span class="text-[#D11468] ml-3">0.19</span>
+            </div>
+            <p class="mt-3 text-[var(--text-base)] text-[#5C5C64] leading-relaxed max-w-[36ch]">
+              One of the lowest drag coefficients ever measured on a production-intent grand tourer. Airflow isn’t routed around the GT — it’s invited through it.
+            </p>
+          </div>
+
+          <div data-reveal style="--reveal-delay:0.08s" class="border-t border-[#D8D5CC] pt-7">
+            <table class="spec-table [&_th]:!text-[#5C5C64] [&_td]:!text-[#14141A] [&_th]:!border-[#D8D5CC] [&_td]:!border-[#D8D5CC]">
+              <caption class="sr-only">{chassis.group} specifications</caption>
+              <tbody>
+                {chassis.rows.map((r) => (
+                  <tr>
+                    <th scope="row">{r.label}</th>
+                    <td>{r.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACT VII · CLOSE — CTAs ============ -->
+  <section class="section relative overflow-hidden bg-[var(--void)] glow-center" aria-label="Configure or reserve the GT">
+    <span class="float-dot left-[20%] top-[24%]" aria-hidden="true"></span>
+    <span class="float-dot right-[26%] bottom-[30%]" aria-hidden="true"></span>
+    <div class="container relative text-center">
+      <span data-reveal class="kicker mb-6 justify-center"><span class="ping"></span> YOUR GT</span>
+      <h2 data-reveal class="font-display font-extrabold text-[length:clamp(2.6rem,8vw,6rem)] leading-[0.9] tracking-[-0.03em] text-[var(--bone)] max-w-[18ch] mx-auto">
+        Now make it<br /><span class="text-[var(--plasma-2)]">yours.</span>
+      </h2>
+      <p data-reveal style="--reveal-delay:0.08s" class="mt-6 text-[length:var(--text-lg)] text-[var(--muted)] max-w-[42ch] mx-auto leading-relaxed">
+        Choose the finish, lock the spec, and place a refundable reservation. First deliveries are open.
+      </p>
+      <div data-reveal style="--reveal-delay:0.14s" class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a href={`${base}configure/`} class="btn-plasma" data-magnetic="0.2">Configure yours →</a>
+        <a href={`${base}reserve/`} class="btn-line">Reserve the GT</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>

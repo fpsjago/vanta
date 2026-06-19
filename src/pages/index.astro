@@ -3,10 +3,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import { Hero } from '../components/Hero';
+import { KineticAct } from '../components/home/KineticAct';
+import { SplitStat } from '../components/home/SplitStat';
+import { DesignRail } from '../components/home/DesignRail';
+import { Interstitial } from '../components/home/Interstitial';
+import { OverlapCollage } from '../components/home/OverlapCollage';
+import { ConfigTease } from '../components/home/ConfigTease';
 import { optimize } from '../lib/images';
+import { TRIMS } from '../data/gt';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const car = await optimize('gt-hero-3q.png', { width: 1600, mobileWidth: 900, alt: 'The VANTA GT, an electric grand tourer, in obsidian' });
+
+const car = await optimize('gt-hero-3q.png', { width: 1600, mobileWidth: 900, alt: 'The VANTA GT in obsidian, three-quarter view' });
+const splitImg = await optimize('gt-color-obsidian.png', { width: 1200, alt: 'VANTA GT, obsidian' });
+const railFront = await optimize('gt-detail-front.png', { width: 1000, alt: 'VANTA GT front mass and charge-port' });
+const railWheel = await optimize('gt-detail-wheel.png', { width: 1000, alt: 'Forged 22-inch aero wheel' });
+const railInt = await optimize('gt-detail-interior.png', { width: 1000, alt: 'The single-display cockpit' });
+const railSide = await optimize('gt-side.png', { width: 1000, alt: 'VANTA GT profile, Cd 0.19' });
+const collageWide = await optimize('gt-color-bone.png', { width: 1200, alt: 'VANTA GT in ceramic bone' });
+const collageInset = await optimize('gt-detail-interior.png', { width: 700, alt: 'Hand-finished cabin' });
+
+const teaseTrims = await Promise.all(
+  TRIMS.map(async (t) => ({ ...t, image: await optimize(t.image, { width: 1100, alt: `VANTA GT in ${t.name}` }) }))
+);
+
+const railItems = [
+  { img: railFront, n: '01', title: 'The front mass', note: 'A sealed nose; the charge-port hides in the haunch. Air is fed, never trapped.' },
+  { img: railSide, n: '02', title: 'The profile', note: 'Cd 0.19. The roofline is one unbroken arc from screen to ducktail.' },
+  { img: railWheel, n: '03', title: 'Forged 22s', note: 'Aero-blade wheels that flush at speed and open to cool under braking.' },
+  { img: railInt, n: '04', title: 'The cockpit', note: 'One screen. Everything else is for driving.' },
+];
+
+const ticker = ['1,020 HP', '690 KM · WLTP', '2.4 S · 0–100', '900 V', 'Cd 0.19', '350 kW DC', '412 KM/H', '1,300 N·m'];
 ---
 
 <BaseLayout title="VANTA" preloadHero={{ sm: car.avifSm, lg: car.avif }}>
@@ -14,7 +42,25 @@ const car = await optimize('gt-hero-3q.png', { width: 1600, mobileWidth: 900, al
 
   <Hero car={car} video={`${base}video/energy-01.mp4`} base={base} client:load />
 
-  <!-- Home archetypes injected in Phase 4 -->
+  <!-- the ONE site-wide marquee -->
+  <div class="marquee relative border-y border-[var(--line)] bg-[var(--surface)] py-3.5" aria-hidden="true">
+    <div class="marquee__track">
+      {[0, 1].map(() => (
+        <div class="flex items-center shrink-0">
+          {ticker.map((t) => (
+            <span class="flex items-center gap-4 px-7 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--muted)] whitespace-nowrap">{t}<span class="w-1 h-1 bg-[var(--plasma)]" /></span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <KineticAct client:visible />
+  <SplitStat image={splitImg} client:visible />
+  <DesignRail items={railItems} client:visible />
+  <Interstitial client:visible />
+  <OverlapCollage wide={collageWide} inset={collageInset} client:visible />
+  <ConfigTease trims={teaseTrims} base={base} client:visible />
 
   <Footer slot="footer" base={base} client:visible />
 </BaseLayout>

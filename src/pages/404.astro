@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Nav } from '../components/Nav';
+import { Footer } from '../components/Footer';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout
+  title="Signal lost"
+  description="This road isn't on the map. The page you were heading for doesn't exist."
+  noindex
+>
+  <Nav slot="nav" base={base} client:only="react" />
+
+  <section class="relative min-h-[calc(100svh-72px)] flex items-center justify-center overflow-hidden text-center">
+    <div class="glow-center absolute inset-0 opacity-80" aria-hidden="true"></div>
+    <div class="bgtypo !text-[length:clamp(11rem,46vw,40rem)] !-webkit-text-stroke-[1.5px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 !text-transparent [-webkit-text-stroke:1.5px_rgba(var(--plasma-rgb),0.16)]" aria-hidden="true">404</div>
+
+    <span class="float-line left-[16%] top-0 h-[34%]" aria-hidden="true"></span>
+    <span class="float-dot right-[20%] top-[30%]" aria-hidden="true"></span>
+    <span class="float-ring w-[260px] h-[260px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" aria-hidden="true"></span>
+
+    <div class="container relative z-[2]">
+      <!-- Severed charge-line -->
+      <svg class="mx-auto mb-9 w-[min(560px,82vw)] h-[64px] overflow-visible" viewBox="0 0 560 64" fill="none" aria-hidden="true">
+        <path class="charge-path" d="M0 32 C 90 32, 150 8, 230 30" />
+        <circle class="charge-node" cx="236" cy="31" r="3.5" />
+        <path class="charge-path !opacity-40" stroke-dasharray="2 9" d="M250 31 L 308 33" />
+        <circle class="charge-node !opacity-80" cx="322" cy="33" r="3.5" />
+        <path class="charge-path" d="M330 33 C 410 56, 470 32, 560 32" />
+      </svg>
+
+      <p class="kicker justify-center" data-reveal><span class="ping" aria-hidden="true"></span> SIGNAL LOST · NO ROUTE</p>
+      <h1 class="mt-6 font-display text-[length:var(--text-5xl)] leading-[0.9] max-w-[16ch] mx-auto" data-reveal style="--reveal-delay:0.05s">
+        This road isn&rsquo;t<br />on the <span class="text-[var(--plasma-2)]">map</span>.
+      </h1>
+      <p class="mt-6 text-[length:var(--text-lg)] text-[var(--muted)] max-w-[42ch] mx-auto leading-relaxed" data-reveal style="--reveal-delay:0.1s">
+        The page you were heading for has gone dark. Let&rsquo;s get you back onto a charged line.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-4" data-reveal style="--reveal-delay:0.15s">
+        <a href={base} class="btn-plasma" data-magnetic="0.2">Back to VANTA</a>
+        <a href={`${base}the-gt/`} class="btn-line">See the GT</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>

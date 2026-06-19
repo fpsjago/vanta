@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Nav } from '../../components/Nav';
+import { Footer } from '../../components/Footer';
+import { GalleryGrid, type GalleryItem } from '../../components/GalleryGrid';
+import { optimize } from '../../lib/images';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const entries = (await getCollection('gallery')).sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
+);
+
+const items: GalleryItem[] = await Promise.all(
+  entries.map(async (entry) => {
+    const image = await optimize(entry.data.image, {
+      width: 1400,
+      mobileWidth: 820,
+      alt: `${entry.data.title} — the VANTA GT`,
+    });
+    const caption = (entry.body ?? '').trim();
+    return {
+      id: entry.id,
+      title: entry.data.title,
+      category: entry.data.category,
+      span: entry.data.span,
+      caption,
+      image,
+    };
+  })
+);
+
+const categories = [...new Set(entries.map((e) => e.data.category))];
+
+const title = 'Gallery';
+const description = 'The VANTA GT in full — studio frames, exterior finishes, and the details that took the longest. Click any frame.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav slot="nav" base={base} client:only="react" />
+
+  <!-- Cinematic masthead -->
+  <section class="relative pt-[clamp(8rem,16vw,12rem)] pb-[clamp(2.5rem,5vw,4rem)] overflow-hidden bg-[var(--void)] glow" aria-labelledby="gal-h">
+    <div class="bgtypo text-[length:clamp(6rem,28vw,26rem)] -top-[6%] right-[-4%] opacity-80" aria-hidden="true">GT</div>
+    <span class="float-line left-[14%] top-[20%] h-[40%]" aria-hidden="true"></span>
+    <span class="float-ring w-[36vmin] h-[36vmin] right-[6%] top-[30%]" aria-hidden="true"></span>
+    <span class="float-dot left-[40%] top-[28%]" aria-hidden="true"></span>
+
+    <div class="container-wide relative">
+      <span data-reveal class="kicker mb-5"><span class="ping"></span> GALLERY · {String(items.length).padStart(2, '0')} FRAMES</span>
+      <h1 id="gal-h" data-reveal class="font-display font-extrabold text-[length:clamp(3rem,11vw,9rem)] leading-[0.84] tracking-[-0.035em] text-[var(--bone)] max-w-[15ch]">
+        Caught in the<br /><span class="text-[var(--plasma-2)]">dark.</span>
+      </h1>
+      <p data-reveal style="--reveal-delay:0.1s" class="mt-7 max-w-[46ch] text-[length:var(--text-lg)] text-[var(--bone)]/80 leading-relaxed">
+        Every frame of the GT we could stand to show. Studio light, the four finishes, and the details that took the longest to get right.
+      </p>
+    </div>
+  </section>
+
+  <!-- Masonry + lightbox island -->
+  <section class="relative pb-[clamp(5rem,11vw,9rem)] overflow-hidden bg-[var(--void)]" aria-label="Gallery">
+    <div class="container-wide relative">
+      <GalleryGrid items={items} categories={categories} client:visible />
+    </div>
+  </section>
+
+  <!-- Close CTA -->
+  <section class="section relative overflow-hidden bg-[var(--surface)] border-t border-[var(--line)] glow-center" aria-label="Configure the GT">
+    <div class="container relative text-center">
+      <h2 data-reveal class="font-display font-extrabold text-[length:clamp(2.2rem,6vw,4.4rem)] leading-[0.92] tracking-[-0.025em] text-[var(--bone)] max-w-[20ch] mx-auto">
+        Seen enough? Build the one that’s yours.
+      </h2>
+      <div data-reveal style="--reveal-delay:0.08s" class="mt-9 flex flex-wrap items-center justify-center gap-4">
+        <a href={`${base}configure/`} class="btn-plasma" data-magnetic="0.2">Configure the GT →</a>
+        <a href={`${base}the-gt/`} class="btn-line">Full spec sheet</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>

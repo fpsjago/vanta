@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Nav } from '../../components/Nav';
+import { Footer } from '../../components/Footer';
+import { specDate } from '../../lib/utils';
+
+export const getStaticPaths = (async () => {
+  const docs = await getCollection('legal');
+  return docs.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const prose = [
+  '[&>p]:text-[length:var(--text-base)] [&>p]:text-[var(--muted)] [&>p]:leading-[1.8] [&>p]:mt-5',
+  '[&>p:first-child]:mt-0',
+  '[&>h2]:font-display [&>h2]:text-[length:var(--text-xl)] [&>h2]:mt-12 [&>h2]:mb-1 [&>h2]:text-[var(--bone)]',
+  '[&>h3]:font-display [&>h3]:text-[length:var(--text-lg)] [&>h3]:mt-8 [&>h3]:text-[var(--bone)]',
+  '[&>ul]:mt-5 [&>ul]:flex [&>ul]:flex-col [&>ul]:gap-2.5 [&>ul]:pl-0',
+  '[&>ul>li]:relative [&>ul>li]:pl-6 [&>ul>li]:text-[var(--muted)] [&>ul>li]:leading-relaxed',
+  "[&>ul>li]:before:content-[''] [&>ul>li]:before:absolute [&>ul>li]:before:left-0 [&>ul>li]:before:top-[0.7em] [&>ul>li]:before:h-px [&>ul>li]:before:w-3 [&>ul>li]:before:bg-[var(--plasma)]",
+  '[&_strong]:text-[var(--bone)]',
+  '[&_a]:text-[var(--plasma-2)] [&_a]:underline [&_a]:underline-offset-4',
+  '[&>blockquote]:border-l-2 [&>blockquote]:border-[var(--plasma)] [&>blockquote]:pl-4 [&>blockquote]:my-6 [&>blockquote]:text-[var(--bone)]',
+  '[&_code]:font-mono [&_code]:bg-[var(--surface)] [&_code]:border [&_code]:border-[var(--line)] [&_code]:rounded [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.9em]',
+  '[&>pre]:font-mono [&>pre]:bg-[var(--surface)] [&>pre]:border [&>pre]:border-[var(--line)] [&>pre]:rounded [&>pre]:p-4 [&>pre]:overflow-x-auto [&>pre]:my-6',
+].join(' ');
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={`${entry.data.title} — VANTA. Concept brand; replace with counsel-reviewed text before launch.`}
+  noindex
+>
+  <Nav slot="nav" base={base} client:only="react" />
+
+  <section class="section pt-32 lg:pt-40 relative overflow-hidden">
+    <div class="glow absolute inset-0 opacity-40" aria-hidden="true"></div>
+    <div class="bgtypo text-[length:clamp(7rem,24vw,20rem)] -top-[3%] -right-[6%] opacity-60" aria-hidden="true">LEGAL</div>
+
+    <div class="container relative z-[2]">
+      <div class="max-w-[68ch] mx-auto">
+        <a href={`${base}`} class="text-cta mb-8" data-reveal>← VANTA home</a>
+        <header class="mb-10" data-reveal style="--reveal-delay:0.05s">
+          <p class="label-mono">UPDATED {specDate(entry.data.updated)}</p>
+          <h1 class="mt-4 font-display text-[length:var(--text-4xl)] leading-[0.95]">{entry.data.title}</h1>
+          <div class="hairline mt-8"></div>
+        </header>
+
+        <div class={prose} data-reveal style="--reveal-delay:0.1s">
+          <Content />
+        </div>
+
+        <div class="hairline mt-14 mb-6"></div>
+        <p class="label-mono flex items-center gap-2.5" data-reveal>
+          <span class="ping" aria-hidden="true"></span> CONCEPT BRAND · TEMPLATE TEXT · REPLACE BEFORE LAUNCH
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" base={base} client:visible />
+</BaseLayout>
