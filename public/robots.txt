@@ -1,0 +1,41 @@
+# VANTA — robots.txt
+# Engineered for the dark.
+
+User-agent: *
+Allow: /
+
+# AI / LLM crawlers — allowed (this is a public marketing site)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# LLM summary
+# See /llms.txt
+
+Sitemap: https://fpsjago.github.io/vanta/sitemap-index.xml

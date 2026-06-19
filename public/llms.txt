@@ -1,0 +1,44 @@
+# VANTA
+
+> Cinematic EV-launch website template — the microsite for a fictional next-gen
+> electric performance brand and its flagship, the VANTA GT, an unbranded concept
+> grand tourer. Tagline: "Engineered for the dark." Built by Full Stack Evolved (FSEVO).
+
+VANTA is a premium ($199) commercial website template built with Astro 6.4, React 19,
+Tailwind v4, GSAP/ScrollTrigger, and Lenis. It is a static site (`output: 'static'`)
+served under the base path `/vanta`. You scroll through it like a launch film rather
+than browsing a conventional marketing site.
+
+## The VANTA GT
+
+The flagship is the VANTA GT — an all-electric grand tourer concept. Headline specs:
+1,020 hp dual-motor AWD, 690 km WLTP range, 0–100 km/h in 2.4 s, 412 km/h limited top
+speed, 110 kWh / 900 V architecture, 10–80% DC charge in 18 minutes. Four paint trims:
+Obsidian, Carbon, Plasma, Bone ($189,000–$198,000). The renders are AI-generated and
+unbranded; the brand and car are fictional.
+
+## Signature features
+
+- "Ignition" hero: a poster-over-video stage where the GT powers on, with a GSAP
+  ScrollTrigger-driven plasma charge-line, headline mask, and a 0→412 km/h HUD counter.
+- 8 distinct scroll section archetypes (no repeating card grids).
+- 2D color/trim configurator with cursor-orbit detail and a real reservation flow.
+- 3 skins including a genuine Studio light mode; generative film grain; WCAG AA.
+
+## Routes
+
+- / — Home (the launch film)
+- /the-gt/ — Full spec sheet and design act
+- /configure/ — Color/trim configurator
+- /reserve/ — Multi-step reservation flow
+- /gallery/ — Cinematic gallery + lightbox
+- /story/ — Brand/innovation scrollytelling
+- /contact/ — Contact + locations
+- /legal/privacy/, /legal/terms/, /legal/warranty/ — Legal pages
+- /404 — In-character "SIGNAL LOST"
+
+## Notes
+
+VANTA, the VANTA GT, and all copy are fictional, created for a sellable template.
+Product imagery is AI-generated and brand-safe; buyers should supply their own
+imagery for real commercial use. Template and brand by Full Stack Evolved.
