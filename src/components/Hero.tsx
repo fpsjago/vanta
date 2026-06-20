@@ -71,7 +71,7 @@ export function Hero({ car, video, base }: HeroProps) {
         <source src={`${video}`} type="video/mp4" />
       </video>
       {/* plasma glow + vignette */}
-      <div data-hero-glow className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_55%_at_50%_62%,rgba(var(--plasma-rgb),0.18)_0%,transparent_65%)]" aria-hidden="true" />
+      <div data-hero-glow className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_55%_at_50%_62%,rgba(var(--plasma-rgb),0.10)_0%,transparent_65%)]" aria-hidden="true" />
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,var(--void)_0%,transparent_22%,transparent_55%,color-mix(in_srgb,var(--void)_92%,transparent)_100%)]" aria-hidden="true" />
 
       {/* The GT render — LCP poster */}
@@ -81,8 +81,9 @@ export function Hero({ car, video, base }: HeroProps) {
           {car.webpSm && <source media="(max-width: 820px)" srcSet={car.webpSm} type="image/webp" />}
           <source srcSet={car.avif} type="image/avif" />
           <source srcSet={car.webp} type="image/webp" />
-          <img src={car.fallback} alt={car.alt} width={car.width} height={car.height} loading="eager" fetchPriority="high" decoding="async" className="w-full h-full object-contain object-[center_58%] md:object-[center_60%]" />
+          <img src={car.fallback} alt={car.alt} width={car.width} height={car.height} loading="eager" fetchPriority="high" decoding="async" className="art-duo-bone w-full h-full object-contain object-[center_58%] md:object-[center_60%]" />
         </picture>
+        <div className="screen-dots" aria-hidden="true" />
       </div>
 
       {/* Charge-line trace */}
@@ -92,15 +93,23 @@ export function Hero({ car, video, base }: HeroProps) {
 
       {/* Content */}
       <div data-hero-content className="container-wide relative z-[3] pb-[clamp(2.5rem,6vw,5rem)] pt-28">
-        <span data-hero-fade className="kicker mb-4"><span className="ping" /> VANTA · THE GT · CONCEPT</span>
-        <h1 className="font-display font-extrabold text-[length:clamp(2.6rem,8vw,7rem)] leading-[0.9] tracking-[-0.03em] text-[var(--bone)]">
-          <span className="line-mask"><span className="line-inner">Engineered</span></span>
-          <span className="line-mask"><span className="line-inner">for the <span className="text-[var(--plasma-2)]">dark.</span></span></span>
+        <span data-hero-fade className="kicker mb-4"><span className="w-4 h-px bg-[var(--plasma)]" /> VANTA GT · HAND-BUILT · 250 ONLY</span>
+        <h1 className="font-display font-extrabold text-[length:clamp(2.6rem,8vw,7rem)] leading-[0.86] tracking-[-0.03em] text-[var(--bone)]">
+          <span className="line-mask"><span className="line-inner">The GT.</span></span>
+          <span className="line-mask"><span className="line-inner">250 made.</span></span>
+          <span className="line-mask"><span className="line-inner text-[var(--plasma-2)]">Then never.</span></span>
         </h1>
 
+        {/* analog production stamp — intentional imperfection */}
+        <div data-hero-fade aria-hidden="true" className="absolute right-[clamp(1.25rem,4vw,2.5rem)] top-32 hidden md:flex flex-col items-center gap-0.5 font-mono text-[var(--muted)] -rotate-[5deg]">
+          <span className="text-[0.55rem] tracking-[0.2em]">№</span>
+          <span className="font-display font-extrabold text-[var(--bone)] text-2xl leading-none">001</span>
+          <span className="text-[0.5rem] tracking-[0.2em]">/ 250</span>
+        </div>
+
         <div className="mt-7 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <p data-hero-fade className="text-[length:var(--text-lg)] text-[var(--bone)]/85 max-w-[42ch] leading-relaxed">
-            A grand tourer with 1,020 horsepower of silence. Dual-motor AWD, 690&nbsp;km of range, and a body shaped entirely by airflow.
+          <p data-hero-fade className="text-[length:var(--text-lg)] text-[var(--bone)]/85 max-w-[44ch] leading-relaxed">
+            1,020&nbsp;hp. 690&nbsp;km on a charge. No exhaust, no gearbox, and no waiting list once the 250th car leaves the floor in Turin.
           </p>
           <div data-hero-fade className="hud flex items-end gap-6 shrink-0">
             <div>

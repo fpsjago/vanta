@@ -120,7 +120,7 @@ export function GalleryGrid({ items, categories }: GalleryGridProps) {
             <Picture
               image={item.image}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+              className="art absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
             />
             <span className="absolute inset-0 bg-[linear-gradient(to_top,var(--void)_0%,transparent_42%,transparent_100%)] opacity-90" aria-hidden="true" />
             <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_70%_60%_at_50%_120%,rgba(var(--plasma-rgb),0.32)_0%,transparent_70%)]" aria-hidden="true" />

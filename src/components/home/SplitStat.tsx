@@ -45,7 +45,7 @@ export function SplitStat({ image }: { image: OptimizedImage }) {
             <picture>
               <source srcSet={image.avif} type="image/avif" />
               <source srcSet={image.webp} type="image/webp" />
-              <img src={image.fallback} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" className="w-full h-auto object-contain" />
+              <img src={image.fallback} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" className="art-duo-bone w-full h-auto object-contain" />
             </picture>
           </div>
         </div>

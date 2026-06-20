@@ -19,7 +19,7 @@ export function ConfigTease({ trims, base }: { trims: TeaseTrim[]; base: string 
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
           <div>
             <span className="kicker mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[var(--plasma)]" /> 06 / CONFIGURE</span>
-            <h2 data-reveal className="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.95] tracking-[-0.03em] text-[var(--bone)] max-w-[14ch]">Make it yours, to the shade.</h2>
+            <h2 data-reveal className="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.95] tracking-[-0.03em] text-[var(--bone)] max-w-[14ch]">Four finishes. One is yours.</h2>
           </div>
           <a href={`${base}configure/?trim=${trim.id}`} data-reveal className="btn-line w-fit">Open the configurator →</a>
         </div>
@@ -35,7 +35,7 @@ export function ConfigTease({ trims, base }: { trims: TeaseTrim[]; base: string 
                 <img
                   src={t.image.fallback} alt={t.image.alt} width={t.image.width} height={t.image.height}
                   loading="lazy" decoding="async"
-                  className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ease-out ${i === active ? 'opacity-100' : 'opacity-0'}`}
+                  className={`art absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ease-out ${i === active ? 'opacity-100' : 'opacity-0'}`}
                 />
               </picture>
             ))}

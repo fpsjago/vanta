@@ -37,7 +37,7 @@ export function KineticAct() {
         <h2 className="font-display font-extrabold tracking-[-0.03em] text-[var(--bone)] leading-[0.92]">
           <span className="line-mask"><span className="kin-line block text-[length:clamp(2.4rem,7vw,6rem)]">One charge.</span></span>
           <span className="line-mask"><span className="kin-line kin-fig block text-[length:clamp(4rem,17vw,15rem)] text-[var(--plasma-2)] leading-[0.82] my-1">690 km</span></span>
-          <span className="line-mask"><span className="kin-line block text-[length:clamp(2.4rem,7vw,6rem)]">of dark road.</span></span>
+          <span className="line-mask"><span className="kin-line block text-[length:clamp(2.4rem,7vw,6rem)]">Then 18 minutes.</span></span>
         </h2>
         <p className="mt-9 mx-auto max-w-[46ch] text-[length:var(--text-lg)] text-[var(--muted)] leading-relaxed">
           A 110&nbsp;kWh pack on a 900-volt architecture. Drive from dusk to the coast and back without thinking about a plug — then take 18 minutes for the next 80%.

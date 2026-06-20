@@ -63,7 +63,7 @@ export function DesignRail({ items }: { items: RailItem[] }) {
                 <picture>
                   <source srcSet={it.img.avif} type="image/avif" />
                   <source srcSet={it.img.webp} type="image/webp" />
-                  <img src={it.img.fallback} alt={it.img.alt} width={it.img.width} height={it.img.height} loading="lazy" decoding="async" className="w-full h-full object-contain will-change-transform scale-[1.06]" />
+                  <img src={it.img.fallback} alt={it.img.alt} width={it.img.width} height={it.img.height} loading="lazy" decoding="async" className="art-duo-bone w-full h-full object-contain will-change-transform scale-[1.06]" />
                 </picture>
               </div>
               <div className="p-6 flex items-end justify-between gap-4">

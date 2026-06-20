@@ -213,7 +213,7 @@ export function Reserve({ base, renders, endpoint }: ReserveProps) {
                   {render.avifSm && <source media="(max-width: 640px)" srcSet={render.avifSm} type="image/avif" />}
                   <source srcSet={render.avif} type="image/avif" />
                   <source srcSet={render.webp} type="image/webp" />
-                  <img src={render.fallback} alt={render.alt} width={render.width} height={render.height} loading="lazy" decoding="async" className="w-full h-full object-contain" />
+                  <img src={render.fallback} alt={render.alt} width={render.width} height={render.height} loading="lazy" decoding="async" className="art w-full h-full object-contain" />
                 </picture>
               )}
               <span className="absolute left-4 top-4 z-[2] label-mono flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full border border-[var(--line-strong)]" style={{ background: trim.paint }} aria-hidden="true" />{trim.name.toUpperCase()}</span>

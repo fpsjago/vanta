@@ -93,6 +93,28 @@ const schema = {
     </main>
     <slot name="footer" />
 
+    <!-- Duotone filters for the editorial-print image treatment -->
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+      <defs>
+        <filter id="v-duo" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.33 0.34 0.33 0 0  0.33 0.34 0.33 0 0  0.33 0.34 0.33 0 0  0 0 0 1 0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.031 0.941" />
+            <feFuncG type="table" tableValues="0.031 0.145" />
+            <feFuncB type="table" tableValues="0.043 0.494" />
+          </feComponentTransfer>
+        </filter>
+        <filter id="v-duo-bone" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.33 0.34 0.33 0 0  0.33 0.34 0.33 0 0  0.33 0.34 0.33 0 0  0 0 0 1 0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.04 0.925" />
+            <feFuncG type="table" tableValues="0.04 0.918" />
+            <feFuncB type="table" tableValues="0.05 0.890" />
+          </feComponentTransfer>
+        </filter>
+      </defs>
+    </svg>
+
     <script>
       import '../scripts/site.ts';
     </script>

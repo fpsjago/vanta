@@ -144,10 +144,19 @@ astro-island { display: contents; }
 .glow { position:relative; }
 .glow::before {
   content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
-  background: radial-gradient(ellipse 60% 50% at 22% 30%, rgba(var(--plasma-rgb),0.10) 0%, transparent 68%),
-              radial-gradient(ellipse 50% 45% at 85% 80%, rgba(var(--plasma-rgb),0.06) 0%, transparent 60%);
+  background: radial-gradient(ellipse 60% 50% at 22% 30%, rgba(var(--plasma-rgb),0.055) 0%, transparent 68%),
+              radial-gradient(ellipse 50% 45% at 85% 80%, rgba(var(--plasma-rgb),0.035) 0%, transparent 60%);
 }
-.glow-center::before { content:''; position:absolute; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 55% 50% at 50% 45%, rgba(var(--plasma-rgb),0.12) 0%, transparent 70%); }
+.glow-center::before { content:''; position:absolute; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 55% 50% at 50% 45%, rgba(var(--plasma-rgb),0.07) 0%, transparent 70%); }
+
+/* ── Editorial-print image treatment (de-AI: reads as a CHOICE, not a render) ── */
+.art-duo { filter: contrast(1.12) brightness(1.05) url('#v-duo'); }
+.art-duo-bone { filter: contrast(1.1) brightness(1.03) url('#v-duo-bone'); }
+.art { filter: contrast(1.16) saturate(0.82) brightness(1.02); }   /* color-preserved grade (configurator) */
+/* fine halftone dot-screen overlay — apply to a wrapper as a sibling/::after target */
+.screen-dots { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.5; mix-blend-mode:overlay;
+  background-image: radial-gradient(circle, rgba(8,8,11,0.9) 0.7px, transparent 0.8px); background-size:3px 3px; }
+@media (prefers-reduced-motion: reduce) { .screen-dots { opacity:0.4; } }
 
 .flood-plasma { background: linear-gradient(135deg, var(--plasma) 0%, #B3144F 100%); color: var(--plasma-ink); }
 

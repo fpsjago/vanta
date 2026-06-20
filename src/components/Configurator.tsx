@@ -57,7 +57,7 @@ export function Configurator({ trims, base, initial }: { trims: ConfTrim[]; base
                 <img
                   src={t.image.fallback} alt={t.image.alt} width={t.image.width} height={t.image.height}
                   loading={i === startIdx ? 'eager' : 'lazy'} fetchPriority={i === startIdx ? 'high' : 'auto'} decoding="async"
-                  className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ease-out ${i === active ? 'opacity-100' : 'opacity-0'}`}
+                  className={`art absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ease-out ${i === active ? 'opacity-100' : 'opacity-0'}`}
                 />
               </picture>
             ))}

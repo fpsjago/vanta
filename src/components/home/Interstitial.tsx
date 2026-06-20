@@ -12,9 +12,9 @@ export function Interstitial() {
         <path d="M-20 80 C 360 20, 720 110, 1080 50 S 1480 30, 1480 30" fill="none" stroke="var(--plasma-ink)" strokeWidth="1.5" />
       </svg>
       <div className="container relative">
-        <p data-reveal className="font-mono text-[0.7rem] uppercase tracking-[0.26em] mb-6">— A new kind of quiet</p>
+        <p data-reveal className="font-mono text-[0.7rem] uppercase tracking-[0.26em] mb-6">— 0 dB at a standstill</p>
         <h2 data-reveal className="font-display font-extrabold text-[length:clamp(2.6rem,9vw,8rem)] leading-[0.88] tracking-[-0.04em] max-w-[16ch]">
-          The dark has a new shape.
+          You'll forget it's on.
         </h2>
       </div>
     </section>

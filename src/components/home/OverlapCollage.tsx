@@ -18,7 +18,7 @@ export function OverlapCollage({ wide, inset }: { wide: OptimizedImage; inset: O
             <picture>
               <source srcSet={wide.avif} type="image/avif" />
               <source srcSet={wide.webp} type="image/webp" />
-              <img src={wide.fallback} alt={wide.alt} width={wide.width} height={wide.height} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              <img src={wide.fallback} alt={wide.alt} width={wide.width} height={wide.height} loading="lazy" decoding="async" className="art w-full h-full object-cover" />
             </picture>
           </div>
           {/* overlapping inset */}
@@ -26,14 +26,20 @@ export function OverlapCollage({ wide, inset }: { wide: OptimizedImage; inset: O
             <picture>
               <source srcSet={inset.avif} type="image/avif" />
               <source srcSet={inset.webp} type="image/webp" />
-              <img src={inset.fallback} alt={inset.alt} width={inset.width} height={inset.height} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              <img src={inset.fallback} alt={inset.alt} width={inset.width} height={inset.height} loading="lazy" decoding="async" className="art w-full h-full object-cover" />
             </picture>
           </div>
         </div>
 
         <div className="lg:pl-8">
           <span className="font-mono text-[0.62rem] uppercase tracking-[0.24em] text-[#B30E57] mb-5 inline-flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#D11468]" /> 04 / CRAFT</span>
-          <h2 data-reveal className="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.98] tracking-[-0.03em]">Built in the light, driven in the dark.</h2>
+          <h2 data-reveal className="font-display font-extrabold text-[length:var(--text-4xl)] leading-[0.98] tracking-[-0.03em]">Assembled by eleven people. Signed by one.</h2>
+          <div data-reveal className="mt-5 flex flex-col gap-1.5" aria-hidden="true">
+            <svg viewBox="0 0 160 46" width="150" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 31 C 12 13 18 13 22 29 C 26 43 32 43 36 27 C 40 13 46 13 50 29 C 54 43 60 43 66 25 L 73 31 M82 30 C 92 14 104 14 108 29 C 112 41 122 41 132 19" fill="none" stroke="#D11468" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="font-mono text-[0.62rem] tracking-[0.14em] text-[#5C5C64]">— M. Vanta, chief engineer</span>
+          </div>
           <p data-reveal className="mt-6 text-[length:var(--text-lg)] leading-relaxed text-[#3C3C44] max-w-[46ch]">
             The cabin is assembled by hand under daylight-balanced studio lamps, then signed. Forged 22-inch wheels, a single-piece carbon tub, and an interior with exactly one screen — because the road deserves your eyes.
           </p>
